@@ -45,4 +45,28 @@ char *storeUmaskInFile()
 		perror("Excl");
 		exit(1);
 	}
+	stdout_copy = dup(1);
+	close(1);
+	fd_dup = dup(fd);
+
+	forkNexec();
+
+	close(fd);
+
+	fflush(stdout);
+	dup2(stdout_copy, 1);
+
+	close(stdout_copy);
+
+	return temp_file;
+}
+
+
+char * makeRanFile()
+{
+	char *fname;
+
+	fname = tmpnam(NULL);
+
+	return fname;
 }
