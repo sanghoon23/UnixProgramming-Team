@@ -94,10 +94,49 @@ char * readUmaskInFile(char *temp_file)
 
 char * makeRanFile()
 {
+<<<<<<< HEAD
 	    char *fname;
 
 	    fname = tmpnam(NULL);
 
 	    return fname;
+=======
+	int fd;
+	
+	char * temp_file = tmpnam(NULL);
+
+	temp_file = tmpnam(NULL);
+
+	fd = open(temp_file, O_CREAT | O_WRONLy | O_TRUNC, 0644);
+	if(fd == -1)
+	{
+		perror("Excl");
+		exit(1);
+	}
+	stdout_copy = dup(1);
+	close(1);
+	fd_dup = dup(fd);
+
+	forkNexec();
+
+	close(fd);
+
+	fflush(stdout);
+	dup2(stdout_copy, 1);
+
+	close(stdout_copy);
+
+	return temp_file;
+}
+
+
+char * makeRanFile()
+{
+	char *fname;
+
+	fname = tmpnam(NULL);
+
+	return fname;
+>>>>>>> origin/master
 }
 

@@ -121,3 +121,32 @@ void initStruct(splitChar *p) // 구조체 변수들 초기화
 	p->command = '\0';
 	p->structPresent = 1;
 }
+
+void routinePerm(splitChar *p, char name[], int i) 		// 퍼미션 주는 것
+{
+	int l;
+	struct stat buf;
+
+	lstat(name, &buf);
+
+	if (p->command == '=')						//  = 명령문이 포함되있을경우, 유저와 그룹 다른사람 모두 권한 삭제
+	{
+		buf.st_mode &= ~(auth[i][0]);				// 유저 권한 삭제
+		buf.st_mode &= ~(auth[i][1]);				// 그룹 권한 삭제
+		buf.st_mode &= ~(auth[i][2]);				// 다른 사람 권한 삭제
+		chmod(name, buf.st_mode);				// 권한 변경 명령어
+	}
+
+	for (l = 0; l<4; l++)
+	{
+		if (p->permission[l] == '\0')				// 문자 없을경우 반복문에서 빠져나감
+			break;
+
+		if (p->permission[l] == 'r')				// r의 권한 일경우
+			changePermCharMode(name, p->command, i, 0);	// chmod.h 에있는changePermCharMode 함수 사용, 읽기 권한 변경
+		else if (p->permission[l] == 'w')				// w 권한 일 경우
+			changePermCharMode(name, p->command, i, 1);	// chmod.h 에있는changePermCharMode 함수 사용, 쓰기 권한 변경
+		else if (p->permission[l] == 'x')				// x의 권한 일경우
+			changePermCharMode(name, p->command, i, 2);	// chmod.h 에있는changePermCharMode 함수 사용, 접근 권한 변경
+	}
+}
