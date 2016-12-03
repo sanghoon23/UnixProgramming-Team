@@ -94,13 +94,6 @@ char * readUmaskInFile(char *temp_file)
 
 char * makeRanFile()
 {
-<<<<<<< HEAD
-	    char *fname;
-
-	    fname = tmpnam(NULL);
-
-	    return fname;
-=======
 	int fd;
 	
 	char * temp_file = tmpnam(NULL);
@@ -127,16 +120,3 @@ char * makeRanFile()
 	close(stdout_copy);
 
 	return temp_file;
-}
-
-
-char * makeRanFile()
-{
-	char *fname;
-
-	fname = tmpnam(NULL);
-
-	return fname;
->>>>>>> origin/master
-}
-
